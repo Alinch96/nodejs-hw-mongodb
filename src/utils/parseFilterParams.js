@@ -1,7 +1,8 @@
 const parseIsFavourite = (value) => {
   if (typeof value !== 'string') return;
   if (!['true', 'false'].includes(value)) return;
-  return value;
+  if (value === 'true') return true;
+  return false;
 };
 
 const parseContactType = (value) => {
