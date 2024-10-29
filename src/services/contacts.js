@@ -40,29 +40,10 @@ export const createContact = (payload, { _id }) => {
   return ContactsCollection.create({ ...payload, userId: _id });
 };
 
-export const updateContact = async (
-  userId,
-  contactId,
-  payload,
-  options = {},
-) => {
-  const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId, userId },
-    payload,
-    {
-      new: true,
-      includeResultMetadata: true,
-      ...options,
-    },
-  );
-
-  if (!rawResult || !rawResult.value) return null;
-
-  return {
-    updatedContact: rawResult.value,
-    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
-  };
-};
+export const updateContact = (contactId, userId, payload) =>
+  ContactsCollection.findOneAndUpdate({ _id: contactId, userId }, payload, {
+    new: true,
+  });
 
 export const deleteContact = ({ contactId, userId }) => {
   return ContactsCollection.findOneAndDelete({ _id: contactId, userId });
